@@ -28,7 +28,6 @@ CUPCAKE_DATA_2 = {
     "image": "http://test.com/cupcake2.jpg"
 }
 
-
 class CupcakeViewsTestCase(TestCase):
     """Tests for views of API."""
 
@@ -83,6 +82,13 @@ class CupcakeViewsTestCase(TestCase):
                     "image": "http://test.com/cupcake.jpg"
                 }
             })
+    
+    def test_cupcake_doesnt_exist(self):
+        with app.test_client() as client:
+            url = f"/api/cupcakes/101"
+            resp = client.get(url)
+
+            self.assertEqual(resp.status_code, 404)
 
     def test_create_cupcake(self):
         with app.test_client() as client:
@@ -107,3 +113,33 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+
+    def test_update_cupcake(self):
+         with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake.id}"
+            resp = client.patch(url, json=CUPCAKE_DATA)
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(Cupcake.query.count(), 1)
+
+
+    def test_update_cake_doesnt_exist(self):
+        with app.test_client() as client:
+            url = f"/api/cupcakes/101"
+            resp = client.patch(url, json=CUPCAKE_DATA)
+            self.assertEqual(resp.status_code, 404)
+
+    def test_delete_cupcake(self):
+         with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake.id}"
+            resp = client.delete(url, json=CUPCAKE_DATA)
+            data = resp.json
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(data, {"message" : "Deleted"})
+            self.assertEqual(Cupcake.query.count(), 0)
+
+    def test_delete_cake_doesnt_exist(self):
+        with app.test_client() as client:
+            url = f"/api/cupcakes/101"
+            resp = client.delete(url)
+
+            self.assertEqual(resp.status_code, 404)

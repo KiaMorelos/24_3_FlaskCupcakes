@@ -1,0 +1,27 @@
+/*
+search bar code styles are from https://www.w3schools.com/howto/howto_css_animated_search.asp 
+
+icon in search bar is from https://iconmonstr.com/magnifier-4-svg/ */
+
+#search-field {
+    margin:5% 1%;
+}
+
+#search input[type=text] {
+    width: 20%;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-image: url('imgs/iconmonstr-magnifier-4.svg');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 12px 20px 12px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+  }
+  
+  #search input[type=text]:focus {
+    width: 80%;
+  }

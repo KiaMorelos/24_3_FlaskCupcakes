@@ -41,7 +41,7 @@ def list_all_cupcakes():
 
 @app.route('/api/cupcakes/q=<search>')
 def search_cupcakes(search):
-    
+    """Search for cupcakes query, return JSON result"""
     cupcakes = Cupcake.query.filter(Cupcake.flavor.ilike(f'%{search}%')).all()
     if cupcakes:
         serialized = [serialize_cupcake(cupcake) for cupcake in cupcakes]
